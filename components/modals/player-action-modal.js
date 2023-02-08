@@ -1,0 +1,75 @@
+import {
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  ModalHeader,
+  ModalContent,
+  ModalOverlay,
+  Button,
+  Modal,
+  FormControl,
+  FormLabel,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Text,
+} from "@chakra-ui/react";
+
+import { Select } from "chakra-react-select";
+
+import { useEffect, useState } from "react";
+
+const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
+  const [value, setValue] = useState([]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    onSubmit({ value, action, player });
+
+    onClose();
+  };
+
+  return (
+    <>
+      <Modal onClose={onClose} isOpen={isOpen} isCentered size={"xl"}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            {player?.name} - {action == "buyin" ? "Buyin 💵" : "Cashout 🏃‍♂️"}
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <form id="new-game" onSubmit={handleSubmit}>
+              <FormControl mt={4} isRequired>
+                <FormLabel>{action == "buyin" ? "Stack" : "Chips"}</FormLabel>
+                <NumberInput
+                  defaultValue={0}
+                  min={0}
+                  placeholder="Value"
+                  onChange={(e) => setValue(e)}
+                >
+                  <NumberInputField />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            </form>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} type="submit" form="new-game">
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+
+export default PlayerActionModal;
