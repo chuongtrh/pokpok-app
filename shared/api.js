@@ -10,6 +10,8 @@ const _get = async (url) => {
   try {
     const res = await fetch(url, {
       method: "GET",
+      mode: "no-cors",
+      referrerPolicy: "no-referrer",
       headers,
     });
     return res.json();
@@ -22,6 +24,8 @@ const _post = async (url, data) => {
   try {
     const res = await fetch(url, {
       method: "POST",
+      mode: "no-cors",
+      referrerPolicy: "no-referrer",
       headers,
       body: JSON.stringify(data),
     });
@@ -35,6 +39,8 @@ const _put = async (url, data) => {
   try {
     const res = await fetch(url, {
       method: "PUT",
+      mode: "no-cors",
+      referrerPolicy: "no-referrer",
       headers,
       body: JSON.stringify(data),
     });
