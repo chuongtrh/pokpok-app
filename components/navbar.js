@@ -17,14 +17,16 @@ export default function Navbar() {
       localStorage.setItem("token", token);
       setHeaderAuthorization(token);
     }
-  }, [token, user]);
+  }, [token]);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("token");
+
     async function fetchProfile() {
+      if (!accessToken) return;
       const data = await getMe();
       setUser(data);
     }
-    const accessToken = localStorage.getItem("token");
     if (accessToken) {
       setToken(accessToken);
       setHeaderAuthorization(accessToken);
@@ -58,7 +60,7 @@ export default function Navbar() {
                 }}
                 size="large"
                 locale="vi_VN"
-                auto_select
+                // auto_select
                 useOneTap
               ></GoogleLogin>
             </GoogleOAuthProvider>

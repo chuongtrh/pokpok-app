@@ -14,7 +14,7 @@ const securityHeaders = [
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
   {
     key: "Referrer-Policy",
-    value: "origin-when-cross-origin",
+    value: "no-referrer",
   },
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   {
@@ -48,14 +48,14 @@ const nextConfig = {
   eslint: {
     dirs: ["pages", "components", "lib", "layouts", "scripts"],
   },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: securityHeaders,
-      },
-    ];
-  },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: "/(.*)",
+  //       headers: securityHeaders,
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;
