@@ -2,10 +2,15 @@ const _host = `${process.env.NEXT_PUBLIC_API_SERVER}`;
 
 export const GoogleClientId = `${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}.apps.googleusercontent.com`;
 
+let headers = {
+  "Content-Type": "application/json",
+};
+
 const _get = async (url) => {
   try {
     const res = await fetch(url, {
       method: "GET",
+      headers,
     });
     return res.json();
   } catch (error) {
@@ -17,9 +22,7 @@ const _post = async (url, data) => {
   try {
     const res = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify(data),
     });
     return res.json();
@@ -32,14 +35,21 @@ const _put = async (url, data) => {
   try {
     const res = await fetch(url, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify(data),
     });
     return res.json();
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const setHeaderAuthorization = (token) => {
+  if (token) {
+    headers = {
+      ...headers,
+      Authorization: `Bearer ${token}`,
+    };
   }
 };
 
@@ -101,4 +111,9 @@ export const getLogs = async (clanId, gameId) => {
 export const loginWithGoogle = async (credential) => {
   const url = `${_host}/auth/google/login`;
   return _post(url, { credential });
+};
+
+export const getMe = async () => {
+  const url = `${_host}/user/me`;
+  return _get(url);
 };

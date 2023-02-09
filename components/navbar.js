@@ -1,6 +1,11 @@
-import { Flex, Box, Spacer, useDisclosure } from "@chakra-ui/react";
+import { Flex, Box, Spacer, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { GoogleClientId, loginWithGoogle } from "@/shared/api";
+import {
+  GoogleClientId,
+  loginWithGoogle,
+  setHeaderAuthorization,
+  getMe,
+} from "@/shared/api";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function Navbar() {
@@ -8,38 +13,60 @@ export default function Navbar() {
   let [user, setUser] = useState({});
 
   useEffect(() => {
-    localStorage.setItem("token", token);
-    // handleLogin(token);
-  }, [token]);
+    if (token) {
+      localStorage.setItem("token", token);
+      setHeaderAuthorization(token);
+    }
+  }, [token, user]);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const data = await getMe();
+      setUser(data);
+    }
+    const accessToken = localStorage.getItem("token");
+    if (accessToken) {
+      setToken(accessToken);
+      setHeaderAuthorization(accessToken);
+      fetchProfile();
+    }
+  }, []);
 
   const handleResponseGoogle = async (response) => {
     const { credential } = response;
     if (credential) {
       await loginWithGoogle(credential);
-      //   const { user, token } = await loginWithGoogle(credential);
-      //   if (user && token) {
-      //     setUser(user);
-      //     setToken(token);
-      //   }
+      const { user, token } = await loginWithGoogle(credential);
+      if (user && token) {
+        setUser(user);
+        setToken(token);
+      }
     }
   };
+
   return (
     <>
       <Flex bg={"gray.200"} mb="4">
         <Spacer />
         <Box p="4">
-          <GoogleOAuthProvider clientId={GoogleClientId}>
-            <GoogleLogin
-              onSuccess={handleResponseGoogle}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-              size="large"
-              locale="vi_VN"
-              auto_select
-              useOneTap
-            ></GoogleLogin>
-          </GoogleOAuthProvider>
+          {!token ? (
+            <GoogleOAuthProvider clientId={GoogleClientId}>
+              <GoogleLogin
+                onSuccess={handleResponseGoogle}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+                size="large"
+                locale="vi_VN"
+                auto_select
+                useOneTap
+              ></GoogleLogin>
+            </GoogleOAuthProvider>
+          ) : (
+            <Box>
+              <Text>{user?.name}</Text>
+            </Box>
+          )}
         </Box>
       </Flex>
     </>
