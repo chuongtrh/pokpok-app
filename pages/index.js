@@ -17,8 +17,8 @@ export default function Home() {
   return (
     <>
       <SimpleGrid columns={2} spacing={10}>
-        {clans.map((d) => (
-          <ClanCard key={d.id} name={d.name} code={d.code} id={d.id} />
+        {clans.map((clan) => (
+          <ClanCard key={clan.id} clan={clan} />
         ))}
       </SimpleGrid>
     </>

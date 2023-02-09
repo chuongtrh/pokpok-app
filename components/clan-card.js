@@ -9,18 +9,18 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 
-const ClanCard = ({ name, id, code }) => {
+const ClanCard = ({ clan }) => {
   return (
     <div>
       <Card>
         <CardHeader>
-          <Heading size="md"> {name}</Heading>
+          <Heading size="md"> {clan.name}</Heading>
         </CardHeader>
         <CardBody>
-          <Text>View a summary of all your customers over the last month.</Text>
+          <Text>{clan.description}</Text>
         </CardBody>
         <CardFooter>
-          <Link href={`/clan/${id}`}>Click</Link>
+          <Link href={`/clan/${clan.id}`}>➡️ Click</Link>
         </CardFooter>
       </Card>
     </div>

@@ -10,6 +10,7 @@ import {
   Button,
   useDisclosure,
   ButtonGroup,
+  Flex,
 } from "@chakra-ui/react";
 
 import { AddIcon } from "@chakra-ui/icons";
@@ -109,24 +110,29 @@ export default function Game() {
         <CardHeader>
           <VStack spacing={4} align="stretch">
             <Box p="4">
-              <ButtonGroup gap="2">
-                <Button
-                  leftIcon={<AddIcon />}
-                  colorScheme="blue"
-                  variant="solid"
-                  onClick={onOpen}
-                  disabled={game.status != "end"}
-                >
-                  Add players
-                </Button>
-                <Button
-                  colorScheme="green"
-                  variant="solid"
-                  onClick={onOpenLogs}
-                >
-                  Logs
-                </Button>
-              </ButtonGroup>
+              <Flex>
+                <Spacer />
+                <Box>
+                  <ButtonGroup gap="2">
+                    <Button
+                      leftIcon={<AddIcon />}
+                      colorScheme="blue"
+                      variant="solid"
+                      onClick={onOpen}
+                      disabled={game.status != "end"}
+                    >
+                      Add players
+                    </Button>
+                    <Button
+                      colorScheme="green"
+                      variant="solid"
+                      onClick={onOpenLogs}
+                    >
+                      Logs
+                    </Button>
+                  </ButtonGroup>
+                </Box>
+              </Flex>
             </Box>
             <Box p="4">
               <Heading size="md">

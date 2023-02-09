@@ -89,27 +89,33 @@ export default function Clan() {
         <CardHeader>
           <VStack spacing={4} align="stretch">
             <Box p="4">
-              <ButtonGroup gap="2">
-                <Button
-                  leftIcon={<AddIcon />}
-                  colorScheme="teal"
-                  variant="solid"
-                  onClick={onOpen}
-                >
-                  New game
-                </Button>
-                <Button
-                  leftIcon={<AddIcon />}
-                  colorScheme="blue"
-                  variant="solid"
-                  onClick={onOpenNewMember}
-                >
-                  Add Member
-                </Button>
-              </ButtonGroup>
+              <Flex>
+                <Spacer />
+                <Box>
+                  <ButtonGroup gap="2">
+                    <Button
+                      leftIcon={<AddIcon />}
+                      colorScheme="teal"
+                      variant="solid"
+                      onClick={onOpen}
+                    >
+                      New game
+                    </Button>
+                    <Button
+                      leftIcon={<AddIcon />}
+                      colorScheme="blue"
+                      variant="solid"
+                      onClick={onOpenNewMember}
+                    >
+                      Add Member
+                    </Button>
+                  </ButtonGroup>
+                </Box>
+              </Flex>
             </Box>
             <Box p="4">
               <Heading size="md"> {clan.name}</Heading>
+              <Text>{clan.description}</Text>
               <Text>Members:{members.length}</Text>
               <Text>Games:{games.length}</Text>
             </Box>

@@ -20,7 +20,7 @@ const Player = ({ player, onAction }) => {
   return (
     <>
       <Tr>
-        <Td>
+        <Td position={"sticky"}>
           <b>{player.name}</b>
         </Td>
         <Td isNumeric>{player.total_buyin}</Td>
@@ -28,7 +28,11 @@ const Player = ({ player, onAction }) => {
         <Td isNumeric>{player.profit}</Td>
         <Td>
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton
+              size="small"
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+            >
               Actions
             </MenuButton>
             <MenuList>
@@ -66,7 +70,7 @@ const PlayerList = ({ players, onAction }) => {
           <TableCaption>Players in game</TableCaption>
           <Thead>
             <Tr>
-              <Th>Name</Th>
+              <Th position={"sticky"}>Name</Th>
               <Th isNumeric>Buyin</Th>
               <Th isNumeric>Cashout</Th>
               <Th isNumeric>Profit</Th>
