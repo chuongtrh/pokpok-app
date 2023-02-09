@@ -30,7 +30,7 @@ const AddMemberModal = ({ onClose, isOpen, onSubmit, clan }) => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered size={"xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add Member to clan: {clan.name}</ModalHeader>
+          <ModalHeader>Add Member to clan: {clan?.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form id="new-game" onSubmit={handleSubmit}>

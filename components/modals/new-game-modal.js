@@ -95,7 +95,7 @@ const NewGameModal = ({ onClose, isOpen, onSubmit, members }) => {
                 <Select
                   isMulti
                   name="players"
-                  options={members.map((m) => {
+                  options={members?.map((m) => {
                     return {
                       label: m.name,
                       value: m.id,

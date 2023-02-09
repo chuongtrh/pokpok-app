@@ -66,7 +66,7 @@ export default function Navbar() {
             </GoogleOAuthProvider>
           ) : (
             <Box>
-              <Text>{user?.name}</Text>
+              <Text as="b">{user?.name}</Text>
             </Box>
           )}
         </Box>

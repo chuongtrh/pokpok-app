@@ -75,7 +75,6 @@ export default function Clan() {
     }
   };
   const onAddNewMember = async (data) => {
-    console.log("🚀 ~ data", data);
     try {
       const res = await addMember(id, data);
       await fetchMembers();
@@ -114,16 +113,16 @@ export default function Clan() {
               </Flex>
             </Box>
             <Box p="4">
-              <Heading size="md"> {clan.name}</Heading>
-              <Text>{clan.description}</Text>
-              <Text>Members:{members.length}</Text>
-              <Text>Games:{games.length}</Text>
+              <Heading size="md"> {clan?.name}</Heading>
+              <Text>{clan?.description}</Text>
+              <Text>Members:{members?.length}</Text>
+              <Text>Games:{games?.length}</Text>
             </Box>
           </VStack>
         </CardHeader>
         <CardBody>
           <SimpleGrid columns={2} spacing={10}>
-            {games.map((g) => (
+            {games?.map((g) => (
               <GameCard
                 key={g.id}
                 id={g.id}

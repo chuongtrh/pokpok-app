@@ -11,6 +11,15 @@ import {
   useDisclosure,
   ButtonGroup,
   Flex,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  Portal,
 } from "@chakra-ui/react";
 
 import { AddIcon } from "@chakra-ui/icons";
@@ -23,16 +32,29 @@ import {
   getGame,
   getPlayers,
   gameAction,
+  gameStart,
+  gameEnd,
 } from "@/shared/api";
+
 import {
   DateFromSeconds,
   FormatDate,
   getBadgeStatusGame,
 } from "@/shared/utils";
+
 import AddPlayerModal from "@/components/modals/add-player-modal";
 import GameLogModal from "@/components/modals/game-log-modal";
 import PlayerList from "@/components/player-list";
 import PlayerActionModal from "@/components/modals/player-action-modal";
+
+const getNextGameStatus = (status) => {
+  const mapping = {
+    new: "start",
+    start: "end",
+    end: "",
+  };
+  return mapping[status];
+};
 
 export default function Game() {
   const [game, setGame] = useState([]);
@@ -40,6 +62,7 @@ export default function Game() {
   const [players, setPlayers] = useState([]);
   const [action, setAction] = useState("");
   const [playerAction, setPlayerAction] = useState({});
+  const [nextGameStatus, setNextGameStatus] = useState("");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -52,6 +75,12 @@ export default function Game() {
     isOpen: isOpenAction,
     onOpen: onOpenAction,
     onClose: onCloseAction,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenGameAction,
+    onOpen: onOpenGameAction,
+    onClose: onCloseGameAction,
   } = useDisclosure();
 
   const router = useRouter();
@@ -79,24 +108,28 @@ export default function Game() {
     fetchPlayers();
   }, [game_id]);
 
+  useEffect(() => {
+    setNextGameStatus(getNextGameStatus(game?.status));
+  }, [game]);
+
   const onAddPlayer = async (data) => {
     try {
-      console.log("🚀 ~ data", data);
       await addPlayer(clan_id, game_id, data);
       await fetchPlayers();
     } catch (error) {
       console.error(error);
     }
   };
+
   const onActionPlayer = async (data) => {
     const { action, player } = data;
     setAction(action);
     setPlayerAction(player);
     onOpenAction();
   };
+
   const onSubmitPlayerAction = async (data) => {
     const { value, action, player } = data;
-    console.log("🚀 ~ data", data);
     await gameAction(clan_id, game_id, {
       value,
       action,
@@ -104,6 +137,16 @@ export default function Game() {
     });
     await fetchPlayers();
   };
+
+  const onGameChangeStatus = async (nextStatus) => {
+    if (nextStatus === "start") {
+      await gameStart(clan_id, game_id);
+    } else if (nextStatus === "end") {
+      await gameEnd(clan_id, game_id);
+    }
+    fetchGame();
+  };
+
   return (
     <>
       <Card>
@@ -114,6 +157,46 @@ export default function Game() {
                 <Spacer />
                 <Box>
                   <ButtonGroup gap="2">
+                    {nextGameStatus ? (
+                      <Popover
+                        isOpen={isOpenGameAction}
+                        onOpen={onOpenGameAction}
+                        onClose={onCloseGameAction}
+                      >
+                        <PopoverTrigger>
+                          <Button colorScheme={"purple"}>
+                            {nextGameStatus?.toUpperCase()}
+                          </Button>
+                        </PopoverTrigger>
+                        <Portal>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverHeader>Confirmation!</PopoverHeader>
+                            <PopoverCloseButton />
+                            <PopoverBody>
+                              <PopoverBody>
+                                Are you sure you want to <b>{nextGameStatus}</b>{" "}
+                                game?
+                              </PopoverBody>
+                            </PopoverBody>
+                            <PopoverFooter>
+                              <Button
+                                colorScheme="blue"
+                                onClick={() => {
+                                  onGameChangeStatus(nextGameStatus);
+                                  onCloseGameAction();
+                                }}
+                              >
+                                Ok
+                              </Button>
+                            </PopoverFooter>
+                          </PopoverContent>
+                        </Portal>
+                      </Popover>
+                    ) : (
+                      <></>
+                    )}
+
                     <Button
                       leftIcon={<AddIcon />}
                       colorScheme="blue"
@@ -172,7 +255,11 @@ export default function Game() {
           </VStack>
         </CardHeader>
         <CardBody>
-          <PlayerList players={players} onAction={onActionPlayer} />
+          <PlayerList
+            players={players}
+            onAction={onActionPlayer}
+            stack={game.stack}
+          />
         </CardBody>
       </Card>
       <AddPlayerModal

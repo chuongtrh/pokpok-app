@@ -11,10 +11,12 @@ export const FormatDate = (date, format = "YYYY-MM-DD HH:mm:ss") => {
 export const getBadgeStatusGame = (status) => {
   switch (status) {
     case "start":
-      return <Badge colorScheme="purple">Start</Badge>;
+      return <Badge colorScheme="green">Start</Badge>;
     case "new":
-      return <Badge colorScheme="green">New</Badge>;
+      return <Badge colorScheme="blue">New</Badge>;
+    case "end":
+      return <Badge colorScheme="red">End</Badge>;
     default:
-      return <Badge>Default</Badge>;
+      return <Badge>{status}</Badge>;
   }
 };
