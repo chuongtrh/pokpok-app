@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies & export
         run: |
           yarn install --prod
-          echo NEXT_PUBLIC_API_SERVER = '"$API_ENDPOINT"' >> .env.local
+          echo "NEXT_PUBLIC_API_SERVER=${{ secrets.API_ENDPOINT }}" >> .env.local
           echo "NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env.local
           yarn export
 
