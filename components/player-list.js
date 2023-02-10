@@ -16,20 +16,21 @@ import {
 
 import { AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
-const Player = ({ player, onAction, stack }) => {
+const Player = ({ player, onAction, game }) => {
   return (
     <>
       <Tr>
         <Td position={"sticky"}>
           <b>{player.name}</b>
         </Td>
-        <Td isNumeric>{player.total_buyin / stack}</Td>
+        <Td isNumeric>{player.total_buyin / game?.stack}</Td>
         <Td isNumeric>{player.total_buyin}</Td>
         <Td isNumeric>{player.total_cashout}</Td>
         <Td isNumeric>{player.profit}</Td>
         <Td>
           <Menu>
             <MenuButton
+              isDisabled={game?.status != "start"}
               size="small"
               as={Button}
               rightIcon={<ChevronDownIcon />}
@@ -62,7 +63,7 @@ const Player = ({ player, onAction, stack }) => {
     </>
   );
 };
-const PlayerList = ({ players, onAction, stack }) => {
+const PlayerList = ({ players, onAction, game }) => {
   return (
     <>
       <TableContainer>
@@ -81,12 +82,7 @@ const PlayerList = ({ players, onAction, stack }) => {
           <Tbody>
             {players.map((p) => {
               return (
-                <Player
-                  key={p.id}
-                  player={p}
-                  onAction={onAction}
-                  stack={stack}
-                />
+                <Player key={p.id} player={p} onAction={onAction} game={game} />
               );
             })}
           </Tbody>

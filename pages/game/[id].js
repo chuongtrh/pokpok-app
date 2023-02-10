@@ -225,7 +225,7 @@ export default function Game() {
               <Text>Rate: {game.rate}</Text>
               <Text>Type: {game.type}</Text>
               <Text>
-                Created:{" "}
+                Create:{" "}
                 {game.created_at
                   ? FormatDate(
                       DateFromSeconds(game.created_at?.seconds),
@@ -234,7 +234,7 @@ export default function Game() {
                   : "-"}
               </Text>
               <Text>
-                Started:{" "}
+                Start:{" "}
                 {game.start_at
                   ? FormatDate(
                       DateFromSeconds(game.start_at?.seconds),
@@ -243,7 +243,7 @@ export default function Game() {
                   : "-"}
               </Text>
               <Text>
-                Ended:{" "}
+                End:{" "}
                 {game.end_at
                   ? FormatDate(
                       DateFromSeconds(game.end_at?.seconds),
@@ -251,15 +251,20 @@ export default function Game() {
                     )
                   : "-"}
               </Text>
+              <Text>
+                Duration:{" "}
+                {game.status == "end"
+                  ? `${Math.round(
+                      Number(game?.end_at?.seconds - game?.start_at?.seconds) /
+                        60
+                    )} min`
+                  : "-"}
+              </Text>
             </Box>
           </VStack>
         </CardHeader>
         <CardBody>
-          <PlayerList
-            players={players}
-            onAction={onActionPlayer}
-            stack={game.stack}
-          />
+          <PlayerList players={players} onAction={onActionPlayer} game={game} />
         </CardBody>
       </Card>
       <AddPlayerModal
