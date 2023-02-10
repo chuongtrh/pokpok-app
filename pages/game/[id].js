@@ -45,6 +45,7 @@ import {
 import AddPlayerModal from "@/components/modals/add-player-modal";
 import GameLogModal from "@/components/modals/game-log-modal";
 import PlayerList from "@/components/player-list";
+import PlayerList2 from "@/components/player-list-2";
 import PlayerActionModal from "@/components/modals/player-action-modal";
 
 const getNextGameStatus = (status) => {
@@ -57,6 +58,8 @@ const getNextGameStatus = (status) => {
 };
 
 export default function Game() {
+  const [gameId, setGameId] = useState("");
+  const [clanId, setClanId] = useState("");
   const [game, setGame] = useState([]);
   const [members, setMembers] = useState([]);
   const [players, setPlayers] = useState([]);
@@ -84,29 +87,34 @@ export default function Game() {
   } = useDisclosure();
 
   const router = useRouter();
-  const { id: game_id, clan_id } = router.query;
 
   async function fetchGame() {
-    if (!game_id) return;
-    const data = await getGame(clan_id, game_id);
+    if (!gameId) return;
+    const data = await getGame(clanId, gameId);
     setGame(data);
   }
   async function fetchMembers() {
-    if (!game_id) return;
-    const data = await getMembers(clan_id);
+    if (!gameId) return;
+    const data = await getMembers(clanId);
     setMembers(data);
   }
   async function fetchPlayers() {
-    if (!game_id) return;
-    const data = await getPlayers(clan_id, game_id);
+    if (!gameId) return;
+    const data = await getPlayers(clanId, gameId);
     setPlayers(data);
   }
+
+  useEffect(() => {
+    const { id, clan_id } = router.query;
+    setGameId(id);
+    setClanId(clan_id);
+  }, [router]);
 
   useEffect(() => {
     fetchGame();
     fetchMembers();
     fetchPlayers();
-  }, [game_id]);
+  }, [gameId]);
 
   useEffect(() => {
     setNextGameStatus(getNextGameStatus(game?.status));
@@ -114,7 +122,7 @@ export default function Game() {
 
   const onAddPlayer = async (data) => {
     try {
-      await addPlayer(clan_id, game_id, data);
+      await addPlayer(clanId, gameId, data);
       await fetchPlayers();
     } catch (error) {
       console.error(error);
@@ -130,7 +138,7 @@ export default function Game() {
 
   const onSubmitPlayerAction = async (data) => {
     const { value, action, player } = data;
-    await gameAction(clan_id, game_id, {
+    await gameAction(clanId, gameId, {
       value,
       action,
       player_id: player?.id,
@@ -140,9 +148,9 @@ export default function Game() {
 
   const onGameChangeStatus = async (nextStatus) => {
     if (nextStatus === "start") {
-      await gameStart(clan_id, game_id);
+      await gameStart(clanId, gameId);
     } else if (nextStatus === "end") {
-      await gameEnd(clan_id, game_id);
+      await gameEnd(clanId, gameId);
     }
     fetchGame();
   };
@@ -202,7 +210,7 @@ export default function Game() {
                       colorScheme="blue"
                       variant="solid"
                       onClick={onOpen}
-                      disabled={game.status != "end"}
+                      disabled={game?.status != "end"}
                     >
                       Add players
                     </Button>
@@ -219,41 +227,41 @@ export default function Game() {
             </Box>
             <Box p="4">
               <Heading size="md">
-                {game.name} {getBadgeStatusGame(game.status)}
+                {game?.name} {getBadgeStatusGame(game?.status)}
               </Heading>
-              <Text>Stack: {game.stack}</Text>
-              <Text>Rate: {game.rate}</Text>
-              <Text>Type: {game.type}</Text>
+              <Text>Stack: {game?.stack}</Text>
+              <Text>Rate: {game?.rate}</Text>
+              <Text>Type: {game?.type}</Text>
               <Text>
                 Create:{" "}
-                {game.created_at
+                {game?.created_at
                   ? FormatDate(
-                      DateFromSeconds(game.created_at?.seconds),
+                      DateFromSeconds(game?.created_at?.seconds),
                       "YYYY-MM-DD HH:mm:ss"
                     )
                   : "-"}
               </Text>
               <Text>
                 Start:{" "}
-                {game.start_at
+                {game?.start_at
                   ? FormatDate(
-                      DateFromSeconds(game.start_at?.seconds),
+                      DateFromSeconds(game?.start_at?.seconds),
                       "YYYY-MM-DD HH:mm:ss"
                     )
                   : "-"}
               </Text>
               <Text>
                 End:{" "}
-                {game.end_at
+                {game?.end_at
                   ? FormatDate(
-                      DateFromSeconds(game.end_at?.seconds),
+                      DateFromSeconds(game?.end_at?.seconds),
                       "YYYY-MM-DD HH:mm:ss"
                     )
                   : "-"}
               </Text>
               <Text>
                 Duration:{" "}
-                {game.status == "end"
+                {game?.status == "end"
                   ? `${Math.round(
                       Number(game?.end_at?.seconds - game?.start_at?.seconds) /
                         60
@@ -278,7 +286,7 @@ export default function Game() {
         onClose={onCloseLogs}
         isOpen={isOpenLogs}
         game={game}
-        clan_id={clan_id}
+        clan_id={clanId}
       />
       <PlayerActionModal
         onClose={onCloseAction}

@@ -31,7 +31,7 @@ const AddPlayerModal = ({ onClose, isOpen, onSubmit, members, game }) => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered size={"xl"}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add Player to game: {game.name}</ModalHeader>
+          <ModalHeader>Add Player to game: {game?.name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form id="new-game" onSubmit={handleSubmit}>
@@ -40,7 +40,7 @@ const AddPlayerModal = ({ onClose, isOpen, onSubmit, members, game }) => {
                 <Select
                   isMulti
                   name="players"
-                  options={members.map((m) => {
+                  options={members?.map((m) => {
                     return {
                       label: m.name,
                       value: m.id,

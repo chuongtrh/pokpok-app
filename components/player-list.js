@@ -14,7 +14,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 
-import { AddIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 const Player = ({ player, onAction, game }) => {
   return (
@@ -80,7 +80,7 @@ const PlayerList = ({ players, onAction, game }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {players.map((p) => {
+            {players?.map((p) => {
               return (
                 <Player key={p.id} player={p} onAction={onAction} game={game} />
               );

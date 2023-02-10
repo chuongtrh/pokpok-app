@@ -7,7 +7,6 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import Link from "next/link";
 
 const ClanCard = ({ clan }) => {
   return (
@@ -20,7 +19,7 @@ const ClanCard = ({ clan }) => {
           <Text>{clan.description}</Text>
         </CardBody>
         <CardFooter>
-          <Link href={`/clan/${clan.id}`}>➡️ Click</Link>
+          <a href={`/clan/${clan.id}`}>➡️ Click</a>
         </CardFooter>
       </Card>
     </div>

@@ -5,15 +5,8 @@ import {
   CardFooter,
   Heading,
   Text,
-  Button,
-  Badge,
 } from "@chakra-ui/react";
-import Link from "next/link";
-import {
-  DateFromSeconds,
-  FormatDate,
-  getBadgeStatusGame,
-} from "@/shared/utils";
+import { getBadgeStatusGame } from "@/shared/utils";
 
 const GameCard = ({ game, clan_id }) => {
   return (
@@ -30,9 +23,9 @@ const GameCard = ({ game, clan_id }) => {
           <Text>Type: {game?.type}</Text>
         </CardBody>
         <CardFooter>
-          <Link color="teal.500" href={`/game/${game?.id}?clan_id=${clan_id}`}>
+          <a color="teal.500" href={`/game/${game?.id}?clan_id=${clan_id}`}>
             ➡️ View
-          </Link>
+          </a>
         </CardFooter>
       </Card>
     </div>

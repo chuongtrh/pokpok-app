@@ -15,7 +15,6 @@ export default function Navbar() {
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
-      setHeaderAuthorization(token);
     }
   }, [token]);
 
@@ -40,6 +39,7 @@ export default function Navbar() {
       await loginWithGoogle(credential);
       const { user, token } = await loginWithGoogle(credential);
       if (user && token) {
+        setHeaderAuthorization(token);
         setUser(user);
         setToken(token);
       }
