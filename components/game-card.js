@@ -6,9 +6,9 @@ import {
   Heading,
   Text,
 } from "@chakra-ui/react";
-import { getBadgeStatusGame } from "@/shared/utils";
+import { getBadgeStatusGame, formatMoney } from "@/shared/utils";
 
-const GameCard = ({ game, clan_id }) => {
+const GameCard = ({ game, clan }) => {
   return (
     <div>
       <Card>
@@ -19,13 +19,15 @@ const GameCard = ({ game, clan_id }) => {
         </CardHeader>
         <CardBody>
           <Text>Stack: {game?.stack}</Text>
-          <Text>Rate: {game?.rate}</Text>
+          <Text>
+            Rate: {formatMoney(game?.rate, clan?.settings?.currency)}
+          </Text>{" "}
           <Text>Type: {game?.type}</Text>
         </CardBody>
         <CardFooter>
           <a
             color="teal.500"
-            href={`/game/?clan_id=${clan_id}&game_id=${game?.id}`}
+            href={`/game/?clan_id=${clan?.id}&game_id=${game?.id}`}
           >
             ➡️ View
           </a>

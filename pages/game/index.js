@@ -34,12 +34,14 @@ import {
   gameAction,
   gameStart,
   gameEnd,
+  getClan,
 } from "@/shared/api";
 
 import {
   DateFromSeconds,
   FormatDate,
   getBadgeStatusGame,
+  formatMoney,
 } from "@/shared/utils";
 
 import AddPlayerModal from "@/components/modals/add-player-modal";
@@ -60,7 +62,8 @@ const getNextGameStatus = (status) => {
 export default function Game() {
   const [gameId, setGameId] = useState("");
   const [clanId, setClanId] = useState("");
-  const [game, setGame] = useState([]);
+  const [clan, setClan] = useState({});
+  const [game, setGame] = useState({});
   const [members, setMembers] = useState([]);
   const [players, setPlayers] = useState([]);
   const [action, setAction] = useState("");
@@ -93,6 +96,11 @@ export default function Game() {
     const data = await getGame(clanId, gameId);
     setGame(data);
   }
+  async function fetchClan() {
+    if (!clanId) return;
+    const data = await getClan(clanId);
+    setClan(data);
+  }
   async function fetchMembers() {
     if (!gameId) return;
     const data = await getMembers(clanId);
@@ -106,12 +114,13 @@ export default function Game() {
 
   useEffect(() => {
     const { game_id, clan_id } = router.query;
-    setGameId(game_id);
     setClanId(clan_id);
+    setGameId(game_id);
   }, [router]);
 
   useEffect(() => {
     fetchGame();
+    fetchClan();
     fetchMembers();
     fetchPlayers();
   }, [gameId]);
@@ -230,7 +239,9 @@ export default function Game() {
                 {game?.name} {getBadgeStatusGame(game?.status)}
               </Heading>
               <Text>Stack: {game?.stack}</Text>
-              <Text>Rate: {game?.rate}</Text>
+              <Text>
+                Rate: {formatMoney(game?.rate, clan?.settings?.currency)}
+              </Text>
               <Text>Type: {game?.type}</Text>
               <Text>
                 Create:{" "}

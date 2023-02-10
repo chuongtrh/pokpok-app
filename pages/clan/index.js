@@ -123,7 +123,7 @@ export default function Clan() {
         <CardBody>
           <SimpleGrid columns={2} spacing={10}>
             {games?.map((g) => (
-              <GameCard key={g.id} game={g} clan_id={clan_id} />
+              <GameCard key={g.id} game={g} clan={clan} />
             ))}
           </SimpleGrid>
         </CardBody>

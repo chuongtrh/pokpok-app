@@ -1,5 +1,6 @@
 import moment from "moment";
 import { Badge } from "@chakra-ui/react";
+import { number } from "prop-types";
 export const DateFromSeconds = (secs) => {
   return new Date(secs * 1000);
 };
@@ -19,4 +20,8 @@ export const getBadgeStatusGame = (status) => {
     default:
       return <Badge>{status}</Badge>;
   }
+};
+
+export const formatMoney = (amount, currency = "USD") => {
+  return amount?.toLocaleString("en-US", { style: "currency", currency });
 };
