@@ -276,7 +276,7 @@ export default function Game() {
                   ? `${Math.round(
                       Number(game?.end_at?.seconds - game?.start_at?.seconds) /
                         60
-                    )} min`
+                    )} mins`
                   : "-"}
               </Text>
             </Box>
