@@ -19,7 +19,7 @@ const ClanCard = ({ clan }) => {
           <Text>{clan.description}</Text>
         </CardBody>
         <CardFooter>
-          <a href={`/clan/${clan.id}`}>➡️ Click</a>
+          <a href={`/clan/?clan_id=${clan.id}`}>➡️ Click</a>
         </CardFooter>
       </Card>
     </div>

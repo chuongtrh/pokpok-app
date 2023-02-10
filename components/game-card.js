@@ -23,7 +23,10 @@ const GameCard = ({ game, clan_id }) => {
           <Text>Type: {game?.type}</Text>
         </CardBody>
         <CardFooter>
-          <a color="teal.500" href={`/game/${game?.id}?clan_id=${clan_id}`}>
+          <a
+            color="teal.500"
+            href={`/game/?clan_id=${clan_id}&game_id=${game?.id}`}
+          >
             ➡️ View
           </a>
         </CardFooter>

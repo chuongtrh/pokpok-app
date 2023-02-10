@@ -105,8 +105,8 @@ export default function Game() {
   }
 
   useEffect(() => {
-    const { id, clan_id } = router.query;
-    setGameId(id);
+    const { game_id, clan_id } = router.query;
+    setGameId(game_id);
     setClanId(clan_id);
   }, [router]);
 

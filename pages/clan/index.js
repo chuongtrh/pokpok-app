@@ -42,21 +42,21 @@ export default function Clan() {
   } = useDisclosure();
 
   const router = useRouter();
-  const { id } = router.query;
+  const { clan_id } = router.query;
 
   async function fetchClan() {
-    if (!id) return;
-    const data = await getClan(id);
+    if (!clan_id) return;
+    const data = await getClan(clan_id);
     setClan(data);
   }
   async function fetchMembers() {
-    if (!id) return;
-    const data = await getMembers(id);
+    if (!clan_id) return;
+    const data = await getMembers(clan_id);
     setMembers(data);
   }
   async function fetchGames() {
-    if (!id) return;
-    const data = await getGames(id);
+    if (!clan_id) return;
+    const data = await getGames(clan_id);
     setGames(data);
   }
 
@@ -64,11 +64,11 @@ export default function Clan() {
     fetchClan();
     fetchMembers();
     fetchGames();
-  }, [id]);
+  }, [clan_id]);
 
   const onNewGame = async (data) => {
     try {
-      const res = await createGame(id, data);
+      const res = await createGame(clan_id, data);
       await fetchGames();
     } catch (error) {
       console.error(error);
@@ -76,7 +76,7 @@ export default function Clan() {
   };
   const onAddNewMember = async (data) => {
     try {
-      const res = await addMember(id, data);
+      const res = await addMember(clan_id, data);
       await fetchMembers();
     } catch (error) {
       console.error(error);
@@ -123,7 +123,7 @@ export default function Clan() {
         <CardBody>
           <SimpleGrid columns={2} spacing={10}>
             {games?.map((g) => (
-              <GameCard key={g.id} game={g} clan_id={id} />
+              <GameCard key={g.id} game={g} clan_id={clan_id} />
             ))}
           </SimpleGrid>
         </CardBody>
