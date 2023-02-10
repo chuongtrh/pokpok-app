@@ -47,6 +47,8 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  trailingSlash: true,
+  compress: true,
   reactStrictMode: true,
   eslint: {
     dirs: ["pages", "components", "lib", "layouts", "scripts"],
