@@ -2,7 +2,6 @@
 
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
-  default-src 'self' *.google.com accounts.google.com
 `;
 
 const securityHeaders = [
