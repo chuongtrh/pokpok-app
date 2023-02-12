@@ -27,6 +27,13 @@ const NewGameModal = ({ onClose, isOpen, onSubmit, members }) => {
     event.preventDefault();
 
     onSubmit({ name, type: gameType, stack, rate, players });
+
+    setName("");
+    setGameType("");
+    setStack(0);
+    setRate(0);
+    setPlayers([]);
+
     onClose();
   };
 

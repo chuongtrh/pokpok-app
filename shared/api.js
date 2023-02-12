@@ -143,3 +143,8 @@ export const getMe = async () => {
   const url = `${_host}/user/me`;
   return _get(url);
 };
+
+export const getSummaryClan = async (clanId) => {
+  const url = `${_host}/clan/${clanId}/summary`;
+  return _get(url);
+};

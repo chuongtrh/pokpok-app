@@ -23,6 +23,9 @@ const AddPlayerModal = ({ onClose, isOpen, onSubmit, members, game }) => {
     event.preventDefault();
 
     onSubmit({ players });
+
+    setPlayers([]);
+
     onClose();
   };
 

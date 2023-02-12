@@ -115,8 +115,9 @@ export default function Clan() {
             <Box p="4">
               <Heading size="md"> {clan?.name}</Heading>
               <Text>{clan?.description}</Text>
-              <Text>Members:{members?.length}</Text>
-              <Text>Games:{games?.length}</Text>
+              <Text>🥷 Members: {members?.length}</Text>
+              <Text>🎯 Games: {games?.length}</Text>
+              <a href={`/clan/dashboard/?clan_id=${clan.id}`}>📊 Dashboard</a>
             </Box>
           </VStack>
         </CardHeader>

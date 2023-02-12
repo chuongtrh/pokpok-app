@@ -22,6 +22,25 @@ export const getBadgeStatusGame = (status) => {
   }
 };
 
+export const getBadgeStatusPlayer = (status) => {
+  switch (status) {
+    case "in":
+      return (
+        <Badge colorScheme="green" fontSize="0.4em">
+          IN
+        </Badge>
+      );
+    case "out":
+      return (
+        <Badge colorScheme="red" fontSize="0.4em">
+          OUT
+        </Badge>
+      );
+    default:
+      return <></>;
+  }
+};
+
 export const formatMoney = (amount, currency = "USD") => {
   return amount?.toLocaleString("en-US", { style: "currency", currency });
 };

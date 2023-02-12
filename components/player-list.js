@@ -15,18 +15,20 @@ import {
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { getBadgeStatusPlayer } from "@/shared/utils";
 
 const Player = ({ player, onAction, game }) => {
   return (
     <>
       <Tr>
         <Td position={"sticky"}>
-          <b>{player.name}</b>
+          <b>{player.name} </b>
+          {getBadgeStatusPlayer(player?.status)}
         </Td>
         <Td isNumeric>{player.total_buyin / game?.stack}</Td>
         <Td isNumeric>{player.total_buyin}</Td>
         <Td isNumeric>{player.total_cashout}</Td>
-        <Td isNumeric>{player.profit}</Td>
+        <Td isNumeric>{player.profit_chip}</Td>
         <Td>
           <Menu>
             <MenuButton

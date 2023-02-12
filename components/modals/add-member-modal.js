@@ -22,6 +22,9 @@ const AddMemberModal = ({ onClose, isOpen, onSubmit, clan }) => {
     event.preventDefault();
 
     onSubmit({ name, code });
+    setName("");
+    setCode("");
+
     onClose();
   };
 

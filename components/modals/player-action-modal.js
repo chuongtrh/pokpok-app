@@ -14,20 +14,18 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Text,
 } from "@chakra-ui/react";
-
-import { Select } from "chakra-react-select";
 
 import { useEffect, useState } from "react";
 
 const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
-  const [value, setValue] = useState([]);
+  const [value, setValue] = useState(0);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     onSubmit({ value, action, player });
+    setValue(0);
 
     onClose();
   };
@@ -49,7 +47,9 @@ const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
                   defaultValue={0}
                   min={0}
                   placeholder="Value"
-                  onChange={(e) => setValue(e)}
+                  onChange={(e) => {
+                    setValue(e);
+                  }}
                 >
                   <NumberInputField />
                   <NumberInputStepper>
