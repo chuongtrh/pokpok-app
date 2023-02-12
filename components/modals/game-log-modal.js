@@ -19,7 +19,7 @@ const buildTextFromLog = (log) => {
   const { name, action, created_at, value } = log;
   return (
     <>
-      <b>{name}</b>
+      <Text as="b">{name}</Text>
       <Highlight
         query={["buyin", "cashout"]}
         styles={{
