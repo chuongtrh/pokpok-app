@@ -206,7 +206,9 @@ export default function Dashboard() {
                         );
                       })}
                       <Td style={{ backgroundColor: "gray" }}>
-                        {formatMoney(m.total, clan?.settings?.currency)}
+                        <Text as="b">
+                          {formatMoney(m.total, clan?.settings?.currency)}
+                        </Text>
                       </Td>
                     </Tr>
                   );

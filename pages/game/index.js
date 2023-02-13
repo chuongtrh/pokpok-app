@@ -47,7 +47,6 @@ import {
 import AddPlayerModal from "@/components/modals/add-player-modal";
 import GameLogModal from "@/components/modals/game-log-modal";
 import PlayerList from "@/components/player-list";
-import PlayerList2 from "@/components/player-list-2";
 import PlayerActionModal from "@/components/modals/player-action-modal";
 
 const getNextGameStatus = (status) => {

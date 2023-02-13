@@ -26,8 +26,8 @@ const Player = ({ player, onAction, game }) => {
           style={{
             position: "sticky",
             left: 0,
-            zIndex: 9999,
-            backgroundColor: "white",
+            // zIndex: 9999,
+            // backgroundColor: "white",
           }}
         >
           <Text as="b">{player.name} </Text>
@@ -39,10 +39,10 @@ const Player = ({ player, onAction, game }) => {
         <Td isNumeric>{player.profit_chip}</Td>
         <Td
           style={{
-            position: "sticky",
-            right: 0,
-            zIndex: 9999,
-            backgroundColor: "white",
+            // position: "sticky",
+            // right: 0,
+            // zIndex: 100,
+            // backgroundColor: "white",
             visibility: game?.status != "start" ? "hidden" : "visible",
           }}
         >
@@ -93,8 +93,8 @@ const PlayerList = ({ players, onAction, game }) => {
                 style={{
                   position: "sticky",
                   left: 0,
-                  zIndex: 9999,
-                  backgroundColor: "white",
+                  // zIndex: 9999,
+                  // backgroundColor: "white",
                 }}
               >
                 Name
@@ -105,10 +105,10 @@ const PlayerList = ({ players, onAction, game }) => {
               <Th isNumeric>Profit</Th>
               <Th
                 style={{
-                  position: "sticky",
-                  right: 0,
-                  zIndex: 9999,
-                  backgroundColor: "white",
+                  // position: "sticky",
+                  // right: 0,
+                  // zIndex: 9999,
+                  // backgroundColor: "white",
                   visibility: game?.status != "start" ? "hidden" : "visible",
                 }}
               >
