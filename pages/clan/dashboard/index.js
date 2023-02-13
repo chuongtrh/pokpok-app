@@ -45,7 +45,6 @@ export default function Dashboard() {
   async function fetchSummaryClan() {
     if (!clan_id) return;
     const data = await getSummaryClan(clan_id);
-    console.log("🚀 ~ data", data);
     setSummary(data);
   }
 
@@ -81,17 +80,25 @@ export default function Dashboard() {
       }
     }
 
-    sortGames.forEach((g, index) => {
-      let players = game_players[g.id];
-      players.forEach((player) => {
-        if (profitMapping[player.id]) {
+    sortGames?.forEach((g, index) => {
+      let gPlayers = game_players[g.id];
+      members.forEach((m) => {
+        let player = gPlayers.find((p) => p.id === m.id);
+        if (player && player.id) {
           profitTotalMapping[player.id][index] = player.profit;
-
           if (index > 0) {
             profitMapping[player.id][index] =
               player.profit + profitMapping[player.id][index - 1];
           } else {
             profitMapping[player.id][index] = player.profit;
+          }
+        } else {
+          profitTotalMapping[m.id][index] = 0;
+
+          if (index > 0) {
+            profitMapping[m.id][index] = profitMapping[m.id][index - 1];
+          } else {
+            profitMapping[m.id][index] = 0;
           }
         }
       });
@@ -161,7 +168,16 @@ export default function Dashboard() {
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>Name</Th>
+                  <Th
+                    style={{
+                      position: "sticky",
+                      left: 0,
+                      zIndex: 9999,
+                      backgroundColor: "white",
+                    }}
+                  >
+                    Name
+                  </Th>
                   {game_names?.map((n, index) => {
                     return <Th key={index}>{n}</Th>;
                   })}
@@ -172,7 +188,14 @@ export default function Dashboard() {
                 {member_profit?.map((m, index) => {
                   return (
                     <Tr key={index}>
-                      <Td>
+                      <Td
+                        style={{
+                          position: "sticky",
+                          left: 0,
+                          zIndex: 9999,
+                          backgroundColor: "white",
+                        }}
+                      >
                         <Text as="b">{m.name}</Text>
                       </Td>
                       {m.data_total?.map((v, index) => {
