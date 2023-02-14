@@ -110,7 +110,7 @@ export default function Dashboard() {
       });
 
       let grand_total_profit = 0;
-      const member_profits = members?.map((member) => {
+      let member_profits = members?.map((member) => {
         const profit = profitTotalMapping[member.id].reduce((a, b) => a + b, 0);
         grand_total_profit += profit;
         return {
@@ -121,6 +121,10 @@ export default function Dashboard() {
           data_total: profitTotalMapping[member.id],
         };
       });
+
+      member_profits = member_profits?.sort(
+        (a, b) => b?.total_profit - a?.total_profit
+      );
 
       return {
         option: {
@@ -223,7 +227,18 @@ export default function Dashboard() {
                             backgroundColor: "white",
                           }}
                         >
-                          <Text as="b">{m.name}</Text>
+                          <Text as="b">
+                            {m.name}
+                            {index == 0 ? (
+                              <b>🥇</b>
+                            ) : index == 1 ? (
+                              <b>🥈</b>
+                            ) : index == 2 ? (
+                              <b>🥉</b>
+                            ) : (
+                              <></>
+                            )}
+                          </Text>
                         </Td>
                         {m.data_total?.map((v, index) => {
                           return (
@@ -244,7 +259,14 @@ export default function Dashboard() {
                     );
                   })}
                   <Tr>
-                    <Td style={{ backgroundColor: "gray" }}>
+                    <Td
+                      style={{
+                        position: "sticky",
+                        left: 0,
+                        zIndex: 9999,
+                        backgroundColor: "gray",
+                      }}
+                    >
                       <Text as="b">Total</Text>
                     </Td>
                     {games.map((g) => {
