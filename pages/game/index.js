@@ -20,9 +20,12 @@ import {
   PopoverArrow,
   PopoverCloseButton,
   Portal,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -165,6 +168,22 @@ export default function Game() {
 
   return (
     <>
+      <Box pl="10">
+        <Breadcrumb
+          spacing="8px"
+          as="b"
+          separator={<ChevronRightIcon color="gray.500" />}
+        >
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/clan/?clan_id=${clan.id}`}>
+              Clan
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </Box>
       <Card>
         <CardHeader>
           <VStack spacing={4} align="stretch">
