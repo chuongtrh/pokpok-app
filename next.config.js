@@ -66,6 +66,7 @@ const nextConfig = {
 const runtimeCaching = require("next-pwa/cache");
 
 //REF: https://github.com/shadowwalker/next-pwa/issues/295#issuecomment-972302942
+// https://makerkit.dev/blog/tutorials/pwa-nextjs
 const withPWA = require("next-pwa");
 
 module.exports = withPWA({
