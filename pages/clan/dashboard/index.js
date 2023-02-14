@@ -53,103 +53,109 @@ export default function Dashboard() {
     fetchSummaryClan();
   }, [clan_id]);
 
-  const { option, game_names, member_profit } = useMemo(() => {
-    const { members, games, game_players } = summary;
+  const { option, game_names, member_profits, games, grand_total_profit } =
+    useMemo(() => {
+      const { members, games, game_players } = summary;
 
-    const legend = members
-      ?.map((member) => {
-        return member.name;
-      })
-      .sort();
-    const sortGames = games
-      ? games?.sort((a, b) => {
-          return a?.end_at.seconds - b?.end_at.seconds;
+      const legend = members
+        ?.map((member) => {
+          return member.name;
         })
-      : [];
+        .sort();
+      const sortGames = games
+        ? games?.sort((a, b) => {
+            return a?.end_at.seconds - b?.end_at.seconds;
+          })
+        : [];
 
-    const xAxis = sortGames?.map((x) => {
-      return x.name;
-    });
-
-    const profitTotalMapping = {};
-    const profitMapping = {};
-    if (members) {
-      for (let m of members) {
-        profitMapping[m.id] = Array(sortGames.length).fill(0);
-        profitTotalMapping[m.id] = Array(sortGames.length).fill(0);
-      }
-    }
-
-    sortGames?.forEach((g, index) => {
-      let gPlayers = game_players[g.id];
-      members.forEach((m) => {
-        let player = gPlayers.find((p) => p.id === m.id);
-        if (player && player.id) {
-          profitTotalMapping[player.id][index] = player.profit;
-          if (index > 0) {
-            profitMapping[player.id][index] =
-              player.profit + profitMapping[player.id][index - 1];
-          } else {
-            profitMapping[player.id][index] = player.profit;
-          }
-        } else {
-          profitTotalMapping[m.id][index] = 0;
-
-          if (index > 0) {
-            profitMapping[m.id][index] = profitMapping[m.id][index - 1];
-          } else {
-            profitMapping[m.id][index] = 0;
-          }
-        }
+      const xAxis = sortGames?.map((x) => {
+        return x.name;
       });
-    });
 
-    const series = members?.map((member) => {
+      const profitTotalMapping = {};
+      const profitMapping = {};
+      if (members) {
+        for (let m of members) {
+          profitMapping[m.id] = Array(sortGames.length).fill(0);
+          profitTotalMapping[m.id] = Array(sortGames.length).fill(0);
+        }
+      }
+
+      sortGames?.forEach((g, index) => {
+        let gPlayers = game_players[g.id];
+        members.forEach((m) => {
+          let player = gPlayers.find((p) => p.id === m.id);
+          if (player && player.id) {
+            profitTotalMapping[player.id][index] = player.profit;
+            if (index > 0) {
+              profitMapping[player.id][index] =
+                player.profit + profitMapping[player.id][index - 1];
+            } else {
+              profitMapping[player.id][index] = player.profit;
+            }
+          } else {
+            profitTotalMapping[m.id][index] = 0;
+
+            if (index > 0) {
+              profitMapping[m.id][index] = profitMapping[m.id][index - 1];
+            } else {
+              profitMapping[m.id][index] = 0;
+            }
+          }
+        });
+      });
+
+      let grand_total_profit = 0;
+      const member_profits = members?.map((member) => {
+        const profit = profitTotalMapping[member.id].reduce((a, b) => a + b, 0);
+        grand_total_profit += profit;
+        return {
+          name: member.name,
+          type: "line",
+          data: profitMapping[member.id],
+          total_profit: profit,
+          data_total: profitTotalMapping[member.id],
+        };
+      });
+
       return {
-        name: member.name,
-        type: "line",
-        data: profitMapping[member.id],
-        total: profitTotalMapping[member.id].reduce((a, b) => a + b, 0),
-        data_total: profitTotalMapping[member.id],
-      };
-    });
+        option: {
+          responsive: true,
+          maintainAspectRatio: false,
 
-    return {
-      option: {
-        responsive: true,
-        maintainAspectRatio: false,
-
-        tooltip: {
-          trigger: "axis",
-        },
-        legend: {
-          data: legend,
-        },
-        grid: {
-          left: "0%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true,
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {},
+          tooltip: {
+            trigger: "axis",
           },
+          legend: {
+            data: legend,
+          },
+          grid: {
+            left: "0%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true,
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: {},
+            },
+          },
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: xAxis,
+          },
+          yAxis: {
+            type: "value",
+          },
+          series: member_profits,
         },
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: xAxis,
-        },
-        yAxis: {
-          type: "value",
-        },
-        series,
-      },
-      game_names: xAxis,
-      member_profit: series,
-    };
-  }, [summary]);
+        game_names: xAxis,
+        member_profits,
+        games: sortGames,
+        grand_total_profit,
+      };
+    }, [summary]);
 
   return (
     <Box p="4">
@@ -185,7 +191,7 @@ export default function Dashboard() {
                 </Tr>
               </Thead>
               <Tbody>
-                {member_profit?.map((m, index) => {
+                {member_profits?.map((m, index) => {
                   return (
                     <Tr key={index}>
                       <Td
@@ -207,12 +213,40 @@ export default function Dashboard() {
                       })}
                       <Td style={{ backgroundColor: "gray" }}>
                         <Text as="b">
-                          {formatMoney(m.total, clan?.settings?.currency)}
+                          {formatMoney(
+                            m.total_profit,
+                            clan?.settings?.currency
+                          )}
                         </Text>
                       </Td>
                     </Tr>
                   );
                 })}
+                <Tr>
+                  <Td style={{ backgroundColor: "gray" }}>
+                    <Text as="b">Total</Text>
+                  </Td>
+                  {games.map((g) => {
+                    return (
+                      <Td key={g.id} style={{ backgroundColor: "gray" }}>
+                        <Text as="b">
+                          {formatMoney(
+                            g.balance_chip,
+                            clan?.settings?.currency
+                          )}
+                        </Text>
+                      </Td>
+                    );
+                  })}
+                  <Td style={{ backgroundColor: "gray" }}>
+                    <Text as="b">
+                      {formatMoney(
+                        grand_total_profit,
+                        clan?.settings?.currency
+                      )}
+                    </Text>
+                  </Td>
+                </Tr>
               </Tbody>
             </Table>
           </TableContainer>

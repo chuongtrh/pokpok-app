@@ -237,13 +237,13 @@ export default function Game() {
               <Heading size="md">
                 {game?.name} {getBadgeStatusGame(game?.status)}
               </Heading>
-              <Text>Stack: {game?.stack}</Text>
+              <Text>🥞 Stack: {game?.stack}</Text>
               <Text>
-                Rate: {formatMoney(game?.rate, clan?.settings?.currency)}
+                💵 Rate: {formatMoney(game?.rate, clan?.settings?.currency)}
               </Text>
-              <Text>Type: {game?.type}</Text>
+              <Text>♥️ Type: {game?.type}</Text>
               <Text>
-                Create:{" "}
+                ❇️ Create:{" "}
                 {game?.created_at
                   ? FormatDate(
                       DateFromSeconds(game?.created_at?.seconds),
@@ -252,7 +252,7 @@ export default function Game() {
                   : "-"}
               </Text>
               <Text>
-                Start:{" "}
+                🏁 Start:{" "}
                 {game?.start_at
                   ? FormatDate(
                       DateFromSeconds(game?.start_at?.seconds),
@@ -261,7 +261,7 @@ export default function Game() {
                   : "-"}
               </Text>
               <Text>
-                End:{" "}
+                🔚 End:{" "}
                 {game?.end_at
                   ? FormatDate(
                       DateFromSeconds(game?.end_at?.seconds),
@@ -270,7 +270,7 @@ export default function Game() {
                   : "-"}
               </Text>
               <Text>
-                Duration:{" "}
+                ⏰ Duration:{" "}
                 {game?.status == "end"
                   ? `${Math.round(
                       Number(game?.end_at?.seconds - game?.start_at?.seconds) /
@@ -279,6 +279,15 @@ export default function Game() {
                   : "-"}
               </Text>
             </Box>
+            {game?.status == "end" ? (
+              <Box p="4">
+                <Text>💵 Total buyin: {game.total_buyin_chip}</Text>
+                <Text>🏃‍♂️ Total cashout: {game.total_cashout_chip}</Text>
+                <Text>👀 Balance: {game.balance_chip}</Text>
+              </Box>
+            ) : (
+              <></>
+            )}
           </VStack>
         </CardHeader>
         <CardBody>
