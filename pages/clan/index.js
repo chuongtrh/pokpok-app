@@ -87,7 +87,7 @@ export default function Clan() {
   };
   return (
     <>
-      <Box pl="10">
+      <Box pl="9">
         <Breadcrumb
           spacing="8px"
           as="b"

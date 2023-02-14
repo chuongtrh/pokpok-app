@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <>
-      <Box pl="10">
+      <Box pl="4">
         <Breadcrumb
           spacing="8px"
           as="b"

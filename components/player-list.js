@@ -27,6 +27,7 @@ const Player = ({ player, onAction, game }) => {
           style={{
             position: "sticky",
             left: 0,
+            backgroundColor: "white",
           }}
         >
           <Text as="b">{player.name} </Text>
@@ -80,7 +81,7 @@ const PlayerList = ({ players, onAction, game }) => {
                   position: "sticky",
                   left: 0,
                   // zIndex: 9999,
-                  // backgroundColor: "white",
+                  backgroundColor: "white",
                 }}
               >
                 Name

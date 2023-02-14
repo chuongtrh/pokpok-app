@@ -25,7 +25,13 @@ const Game = ({ game, clan_id }) => {
   return (
     <>
       <Tr>
-        <Td>
+        <Td
+          style={{
+            position: "sticky",
+            left: 0,
+            backgroundColor: "white",
+          }}
+        >
           <Text as="b">
             <a
               color="teal.500"
@@ -64,7 +70,15 @@ const GameList = ({ games, clan_id }) => {
         <Table colorScheme="teal" size="md">
           <Thead>
             <Tr>
-              <Th>Name</Th>
+              <Th
+                style={{
+                  position: "sticky",
+                  left: 0,
+                  backgroundColor: "white",
+                }}
+              >
+                Name
+              </Th>
               <Th>Status</Th>
               <Th>Type</Th>
               <Th>Created at</Th>
