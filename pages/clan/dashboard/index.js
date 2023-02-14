@@ -119,6 +119,13 @@ export default function Dashboard() {
           data: profitMapping[member.id],
           total_profit: profit,
           data_total: profitTotalMapping[member.id],
+          showSymbol: true,
+          endLabel: {
+            show: true,
+            formatter: function (params) {
+              return params.seriesName;
+            },
+          },
         };
       });
 
@@ -128,6 +135,8 @@ export default function Dashboard() {
 
       return {
         option: {
+          animationDuration: 3000,
+
           responsive: true,
           maintainAspectRatio: false,
 
