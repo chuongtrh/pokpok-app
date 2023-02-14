@@ -14,12 +14,12 @@ export default function Document() {
         <meta name="msapplication-config" content="/icons/browserconfig.xml" />
         <meta name="msapplication-TileColor" content="#2B5797" />
         <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#FFFFFF" />
 
-        <meta
+        {/* <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
-        />
+        /> */}
 
         <link rel="apple-touch-icon" href="/icons/touch-icon-iphone.png" />
         <link

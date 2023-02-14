@@ -65,8 +65,6 @@ const nextConfig = {
 
 const withPWA = require("next-pwa")({
   dest: "public",
-  dynamicStartUrlRedirect: true,
-  cacheOnFrontEndNav: true,
 });
 
 module.exports = withPWA({ nextConfig });
