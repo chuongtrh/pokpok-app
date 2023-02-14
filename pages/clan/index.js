@@ -12,8 +12,11 @@ import {
   useDisclosure,
   ButtonGroup,
   VStack,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -25,9 +28,9 @@ import {
   addMember,
 } from "@/shared/api";
 
-import GameCard from "@/components/game-card";
 import NewGameModal from "@/components/modals/new-game-modal";
 import AddMemberModal from "@/components/modals/add-member-modal";
+import GameList from "@/components/game-list";
 
 export default function Clan() {
   const [clan, setClan] = useState([]);
@@ -84,6 +87,17 @@ export default function Clan() {
   };
   return (
     <>
+      <Box pl="10">
+        <Breadcrumb
+          spacing="8px"
+          as="b"
+          separator={<ChevronRightIcon color="gray.500" />}
+        >
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">🏠 Home</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </Box>
       <Card>
         <CardHeader>
           <VStack spacing={4} align="stretch">
@@ -122,11 +136,7 @@ export default function Clan() {
           </VStack>
         </CardHeader>
         <CardBody>
-          <SimpleGrid columns={2} spacing={10}>
-            {games?.map((g) => (
-              <GameCard key={g.id} game={g} clan={clan} />
-            ))}
-          </SimpleGrid>
+          <GameList games={games} clan_id={clan_id}></GameList>
         </CardBody>
       </Card>
       <NewGameModal

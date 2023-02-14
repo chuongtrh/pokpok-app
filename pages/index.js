@@ -24,14 +24,14 @@ export default function Home() {
 
   return (
     <>
-      <Box p="4">
+      <Box pl="10">
         <Breadcrumb
           spacing="8px"
           as="b"
           separator={<ChevronRightIcon color="gray.500" />}
         >
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">🏠 Home</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </Box>
