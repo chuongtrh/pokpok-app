@@ -36,7 +36,7 @@ const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {player?.name} - {action == "buyin" ? "Buyin 💵" : "Cashout 🏃‍♂️"}
+            {player?.name} - {action == "buyin" ? " 💵 Buyin" : "🏃‍♂️ Cashout"}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>

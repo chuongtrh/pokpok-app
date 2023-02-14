@@ -13,6 +13,7 @@ import {
   MenuList,
   MenuItem,
   Text,
+  ButtonGroup,
 } from "@chakra-ui/react";
 
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -26,8 +27,6 @@ const Player = ({ player, onAction, game }) => {
           style={{
             position: "sticky",
             left: 0,
-            // zIndex: 9999,
-            // backgroundColor: "white",
           }}
         >
           <Text as="b">{player.name} </Text>
@@ -36,46 +35,33 @@ const Player = ({ player, onAction, game }) => {
         <Td isNumeric>{player.total_buyin / game?.stack}</Td>
         <Td isNumeric>{player.total_buyin}</Td>
         <Td isNumeric>{player.total_cashout}</Td>
-        <Td isNumeric>{player.profit_chip}</Td>
+        <Td isNumeric>{player.profit_chip ? player.profit_chip : 0}</Td>
         <Td
           style={{
-            // position: "sticky",
-            // right: 0,
-            // zIndex: 100,
-            // backgroundColor: "white",
             visibility: game?.status != "start" ? "hidden" : "visible",
           }}
         >
-          <Menu>
-            <MenuButton
-              isDisabled={game?.status != "start"}
-              size="small"
-              as={Button}
-              rightIcon={<ChevronDownIcon />}
+          <ButtonGroup gap="2">
+            <Button
+              size="sm"
+              onClick={() => {
+                onAction({ action: "buyin", player });
+              }}
             >
-              Actions
-            </MenuButton>
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  onAction({ action: "buyin", player });
-                }}
-              >
-                Buyin
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  console.log("Cashout");
-                  onAction({
-                    action: "cashout",
-                    player,
-                  });
-                }}
-              >
-                Cashout
-              </MenuItem>
-            </MenuList>
-          </Menu>
+              💵 Buyin
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => {
+                onAction({
+                  action: "cashout",
+                  player,
+                });
+              }}
+            >
+              🏃‍♂️ Cashout
+            </Button>
+          </ButtonGroup>
         </Td>
       </Tr>
     </>
