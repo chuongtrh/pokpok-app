@@ -66,12 +66,12 @@ const nextConfig = {
 const runtimeCaching = require("next-pwa/cache");
 
 //REF: https://github.com/shadowwalker/next-pwa/issues/295#issuecomment-972302942
-const withPWA = require("next-pwa")({
+const withPWA = require("next-pwa");
+
+module.exports = withPWA({
   dest: "public",
   register: true,
   skipWaiting: true,
   runtimeCaching,
   buildExcludes: [/middleware-manifest.json$/],
-});
-
-module.exports = withPWA({ nextConfig });
+})(nextConfig);
