@@ -148,7 +148,7 @@ export default function Dashboard() {
           },
           grid: {
             left: "0%",
-            right: "10%",
+            right: "50px",
             bottom: "3%",
             containLabel: true,
           },
