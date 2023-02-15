@@ -25,7 +25,7 @@ import {
   BreadcrumbLink,
 } from "@chakra-ui/react";
 
-import { AddIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronRightIcon, RepeatIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -131,6 +131,12 @@ export default function Game() {
     setNextGameStatus(getNextGameStatus(game?.status));
   }, [game]);
 
+  const onRefresh = async () => {
+    fetchGame();
+    fetchClan();
+    fetchMembers();
+    fetchPlayers();
+  };
   const onAddPlayer = async (data) => {
     try {
       await addPlayer(clanId, gameId, data);
@@ -239,8 +245,9 @@ export default function Game() {
                       onClick={onOpen}
                       disabled={game?.status != "end"}
                     >
-                      Add players
+                      Add 🥷
                     </Button>
+
                     <Button
                       colorScheme="green"
                       variant="solid"
@@ -248,6 +255,12 @@ export default function Game() {
                     >
                       Logs
                     </Button>
+                    <Button
+                      rightIcon={<RepeatIcon />}
+                      colorScheme="gray"
+                      variant="solid"
+                      onClick={onRefresh}
+                    ></Button>
                   </ButtonGroup>
                 </Box>
               </Flex>

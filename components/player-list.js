@@ -37,33 +37,33 @@ const Player = ({ player, onAction, game }) => {
         <Td isNumeric>{player.total_buyin}</Td>
         <Td isNumeric>{player.total_cashout}</Td>
         <Td isNumeric>{player.profit_chip ? player.profit_chip : 0}</Td>
-        <Td
-          style={{
-            visibility: game?.status != "start" ? "hidden" : "visible",
-          }}
-        >
-          <ButtonGroup gap="2">
-            <Button
-              size="sm"
-              onClick={() => {
-                onAction({ action: "buyin", player });
-              }}
-            >
-              💵 Buyin
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => {
-                onAction({
-                  action: "cashout",
-                  player,
-                });
-              }}
-            >
-              🏃‍♂️ Cashout
-            </Button>
-          </ButtonGroup>
-        </Td>
+        {game?.status == "start" ? (
+          <Td>
+            <ButtonGroup gap="2">
+              <Button
+                size="sm"
+                onClick={() => {
+                  onAction({ action: "buyin", player });
+                }}
+              >
+                💵 Buyin
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => {
+                  onAction({
+                    action: "cashout",
+                    player,
+                  });
+                }}
+              >
+                🏃‍♂️ Cashout
+              </Button>
+            </ButtonGroup>
+          </Td>
+        ) : (
+          <></>
+        )}
       </Tr>
     </>
   );
@@ -90,17 +90,22 @@ const PlayerList = ({ players, onAction, game }) => {
               <Th isNumeric>Chips</Th>
               <Th isNumeric>Cashout</Th>
               <Th isNumeric>Profit</Th>
-              <Th
-                style={{
-                  // position: "sticky",
-                  // right: 0,
-                  // zIndex: 9999,
-                  // backgroundColor: "white",
-                  visibility: game?.status != "start" ? "hidden" : "visible",
-                }}
-              >
-                Action
-              </Th>
+              {game?.status == "start" ? (
+                <Th
+                  style={
+                    {
+                      // position: "sticky",
+                      // right: 0,
+                      // zIndex: 9999,
+                      // backgroundColor: "white",
+                    }
+                  }
+                >
+                  Action
+                </Th>
+              ) : (
+                <></>
+              )}
             </Tr>
           </Thead>
           <Tbody>

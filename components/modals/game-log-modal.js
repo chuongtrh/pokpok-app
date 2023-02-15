@@ -59,7 +59,7 @@ const GameLogModal = ({ onClose, isOpen, game, clan_id }) => {
           <DrawerCloseButton />
 
           <DrawerHeader borderBottomWidth="1px">
-            Logs game: {game?.name}
+            Log game: {game?.name}
           </DrawerHeader>
           <DrawerBody>
             <UnorderedList>

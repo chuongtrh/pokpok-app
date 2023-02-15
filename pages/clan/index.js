@@ -16,7 +16,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
 } from "@chakra-ui/react";
-import { AddIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronRightIcon, RepeatIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -69,6 +69,12 @@ export default function Clan() {
     fetchGames();
   }, [clan_id]);
 
+  const onRefresh = () => {
+    fetchClan();
+    fetchMembers();
+    fetchGames();
+  };
+
   const onNewGame = async (data) => {
     try {
       const res = await createGame(clan_id, data);
@@ -112,7 +118,7 @@ export default function Clan() {
                       variant="solid"
                       onClick={onOpen}
                     >
-                      New game
+                      New 🎯
                     </Button>
                     <Button
                       leftIcon={<AddIcon />}
@@ -122,6 +128,12 @@ export default function Clan() {
                     >
                       Add Member
                     </Button>
+                    <Button
+                      rightIcon={<RepeatIcon />}
+                      colorScheme="gray"
+                      variant="solid"
+                      onClick={onRefresh}
+                    ></Button>
                   </ButtonGroup>
                 </Box>
               </Flex>
