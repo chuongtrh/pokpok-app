@@ -120,6 +120,7 @@ export default function Dashboard() {
           total_profit: profit,
           data_total: profitTotalMapping[member.id],
           showSymbol: true,
+          smooth: false,
           endLabel: {
             show: true,
             formatter: function (params) {
@@ -136,10 +137,8 @@ export default function Dashboard() {
       return {
         option: {
           animationDuration: 3000,
-
           responsive: true,
           maintainAspectRatio: false,
-
           tooltip: {
             trigger: "axis",
           },

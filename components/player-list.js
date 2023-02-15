@@ -7,19 +7,15 @@ import {
   Th,
   Td,
   TableContainer,
-  TableCaption,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Text,
   ButtonGroup,
 } from "@chakra-ui/react";
 
-import { ChevronDownIcon } from "@chakra-ui/icons";
 import { getBadgeStatusPlayer } from "@/shared/utils";
 
-const Player = ({ player, onAction, game }) => {
+import { formatMoney } from "@/shared/utils";
+
+const Player = ({ player, onAction, game, clan }) => {
   return (
     <>
       <Tr key={player.id}>
@@ -37,18 +33,26 @@ const Player = ({ player, onAction, game }) => {
         <Td isNumeric>{player.total_buyin}</Td>
         <Td isNumeric>{player.total_cashout}</Td>
         <Td isNumeric>{player.profit_chip ? player.profit_chip : 0}</Td>
+        <Td isNumeric>
+          {player.profit
+            ? formatMoney(player.profit, clan?.settings?.currency)
+            : 0}
+        </Td>
         {game?.status == "start" ? (
           <Td>
             <ButtonGroup gap="2">
               <Button
+                colorScheme="whatsapp"
                 size="sm"
                 onClick={() => {
                   onAction({ action: "buyin", player });
                 }}
               >
+                {" "}
                 💵 Buyin
               </Button>
               <Button
+                colorScheme="pink"
                 size="sm"
                 onClick={() => {
                   onAction({
@@ -57,6 +61,7 @@ const Player = ({ player, onAction, game }) => {
                   });
                 }}
               >
+                {" "}
                 🏃‍♂️ Cashout
               </Button>
             </ButtonGroup>
@@ -68,12 +73,11 @@ const Player = ({ player, onAction, game }) => {
     </>
   );
 };
-const PlayerList = ({ players, onAction, game }) => {
+const PlayerList = ({ players, onAction, game, clan }) => {
   return (
     <>
       <TableContainer overflowX="scroll" overflowY="unset">
         <Table colorScheme="teal" size="md">
-          <TableCaption>Players in game</TableCaption>
           <Thead>
             <Tr>
               <Th
@@ -89,6 +93,7 @@ const PlayerList = ({ players, onAction, game }) => {
               <Th isNumeric>Buyin</Th>
               <Th isNumeric>Chips</Th>
               <Th isNumeric>Cashout</Th>
+              <Th isNumeric>Profit Chips</Th>
               <Th isNumeric>Profit</Th>
               {game?.status == "start" ? (
                 <Th
@@ -111,7 +116,13 @@ const PlayerList = ({ players, onAction, game }) => {
           <Tbody>
             {players?.map((p) => {
               return (
-                <Player key={p.id} player={p} onAction={onAction} game={game} />
+                <Player
+                  key={p.id}
+                  player={p}
+                  onAction={onAction}
+                  game={game}
+                  clan={clan}
+                />
               );
             })}
           </Tbody>

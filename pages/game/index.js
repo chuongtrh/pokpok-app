@@ -323,7 +323,12 @@ export default function Game() {
           </VStack>
         </CardHeader>
         <CardBody>
-          <PlayerList players={players} onAction={onActionPlayer} game={game} />
+          <PlayerList
+            players={players}
+            onAction={onActionPlayer}
+            game={game}
+            clan={clan}
+          />
         </CardBody>
       </Card>
       <AddPlayerModal

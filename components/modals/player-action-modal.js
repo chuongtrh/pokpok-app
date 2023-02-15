@@ -42,7 +42,9 @@ const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
           <ModalBody>
             <form id="new-game" onSubmit={handleSubmit}>
               <FormControl mt={4} isRequired>
-                <FormLabel>{action == "buyin" ? "Stack" : "Chips"}</FormLabel>
+                <FormLabel>
+                  {action == "buyin" ? "Buyin Stack" : "Cashout Chips"}
+                </FormLabel>
                 <NumberInput
                   defaultValue={0}
                   min={0}
@@ -62,7 +64,7 @@ const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} type="submit" form="new-game">
-              Save
+              {action == "buyin" ? "Save Buyin" : "Save Cashout"}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
