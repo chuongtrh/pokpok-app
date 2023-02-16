@@ -13,13 +13,14 @@ const ClanCard = ({ clan }) => {
     <div>
       <Card>
         <CardHeader>
-          <Heading size="md"> {clan.name}</Heading>
+          <Heading size="md"> {clan?.name}</Heading>
+          <Text size="md"> {clan?.is_private ? "🔒" : ""}</Text>
         </CardHeader>
         <CardBody>
-          <Text>{clan.description}</Text>
+          <Text>{clan?.description}</Text>
         </CardBody>
         <CardFooter>
-          <a href={`/clan/?clan_id=${clan.id}`}>➡️ Click</a>
+          <a href={`/clan/?clan_id=${clan?.id}`}>➡️ Click</a>
         </CardFooter>
       </Card>
     </div>
