@@ -28,7 +28,7 @@ import {
 import { AddIcon, ChevronRightIcon, RepeatIcon } from "@chakra-ui/icons";
 
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   addPlayer,
   getMembers,
@@ -46,6 +46,7 @@ import {
   getBadgeStatusGame,
   formatMoney,
 } from "@/shared/utils";
+import { CSVLink, CSVDownload } from "react-csv";
 
 import AddPlayerModal from "@/components/modals/add-player-modal";
 import GameLogModal from "@/components/modals/game-log-modal";
@@ -133,6 +134,19 @@ export default function Game() {
   useEffect(() => {
     setNextGameStatus(getNextGameStatus(game?.status));
   }, [game]);
+
+  const csvData = useMemo(() => {
+    return players?.map((p) => {
+      return {
+        name: p.name,
+        stack: p.total_buyin / game?.stack,
+        buyin: p.total_buyin,
+        cashout: p.total_cashout,
+        profit_chip: p.profit_chip,
+        profit: p.profit,
+      };
+    });
+  }, [players, game]);
 
   const onRefresh = async () => {
     fetchData();
@@ -323,6 +337,24 @@ export default function Game() {
           </VStack>
         </CardHeader>
         <CardBody>
+          <Flex p="4">
+            <Text as="b">Players in game:</Text>
+            <Spacer />
+            <CSVLink
+              filename={`${game?.name}`}
+              data={csvData}
+              headers={[
+                { label: "Name", key: "name" },
+                { label: "Stack", key: "stack" },
+                { label: "Buyin", key: "buyin" },
+                { label: "Cashout", key: "cashout" },
+                { label: "Profit chips", key: "profit_chip" },
+                { label: "Profit", key: "profit" },
+              ]}
+            >
+              ⬇️ Download CSV
+            </CSVLink>
+          </Flex>
           <PlayerList
             players={players}
             onAction={onActionPlayer}
