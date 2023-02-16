@@ -15,7 +15,7 @@ import { getBadgeStatusPlayer } from "@/shared/utils";
 
 import { formatMoney } from "@/shared/utils";
 
-const Player = ({ player, onAction, game, clan }) => {
+const Player = ({ index, player, onAction, game, clan }) => {
   return (
     <>
       <Tr key={player.id}>
@@ -27,6 +27,15 @@ const Player = ({ player, onAction, game, clan }) => {
           }}
         >
           <Text as="b">{player.name} </Text>
+          {index == 0 ? (
+            <b>🥇</b>
+          ) : index == 1 ? (
+            <b>🥈</b>
+          ) : index == 2 ? (
+            <b>🥉</b>
+          ) : (
+            <></>
+          )}
           {getBadgeStatusPlayer(player?.status)}
         </Td>
         <Td isNumeric>{player.total_buyin / game?.stack}</Td>
@@ -114,10 +123,11 @@ const PlayerList = ({ players, onAction, game, clan }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {players?.map((p) => {
+            {players?.map((p, index) => {
               return (
                 <Player
                   key={p.id}
+                  index={index}
                   player={p}
                   onAction={onAction}
                   game={game}

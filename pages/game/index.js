@@ -111,9 +111,15 @@ export default function Game() {
   async function fetchPlayers() {
     if (!gameId) return;
     const data = await getPlayers(clanId, gameId);
-    setPlayers(data);
+    setPlayers(data.sort((a, b) => b.profit - a.profit));
   }
 
+  async function fetchData() {
+    fetchGame();
+    fetchClan();
+    fetchMembers();
+    fetchPlayers();
+  }
   useEffect(() => {
     const { game_id, clan_id } = router.query;
     setClanId(clan_id);
@@ -121,10 +127,7 @@ export default function Game() {
   }, [router]);
 
   useEffect(() => {
-    fetchGame();
-    fetchClan();
-    fetchMembers();
-    fetchPlayers();
+    fetchData();
   }, [gameId]);
 
   useEffect(() => {
@@ -132,10 +135,7 @@ export default function Game() {
   }, [game]);
 
   const onRefresh = async () => {
-    fetchGame();
-    fetchClan();
-    fetchMembers();
-    fetchPlayers();
+    fetchData();
   };
   const onAddPlayer = async (data) => {
     try {
