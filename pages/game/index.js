@@ -327,9 +327,13 @@ export default function Game() {
             </Box>
             {game?.status == "end" ? (
               <Box p="4">
-                <Text>💵 Total buyin: {game.total_buyin_chip}</Text>
-                <Text>🏃‍♂️ Total cashout: {game.total_cashout_chip}</Text>
-                <Text>👀 Balance: {game.balance_chip}</Text>
+                <Text>💵 Total Buyin: {game?.total_buyin_chip}</Text>
+                <Text>🏃‍♂️ Total Cashout: {game?.total_cashout_chip}</Text>
+                <Text>👀 Balance: {game?.balance_chip}</Text>
+                <Text>
+                  💸 MoneyIn:{" "}
+                  {formatMoney(game?.total_money_in, clan?.settings?.currency)}
+                </Text>
               </Box>
             ) : (
               <></>

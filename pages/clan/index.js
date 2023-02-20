@@ -148,7 +148,7 @@ export default function Clan() {
           </VStack>
         </CardHeader>
         <CardBody>
-          <GameList games={games} clan_id={clan_id}></GameList>
+          <GameList games={games} clan_id={clan_id} clan={clan}></GameList>
         </CardBody>
       </Card>
       <NewGameModal

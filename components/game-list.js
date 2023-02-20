@@ -1,5 +1,4 @@
 import {
-  Button,
   Table,
   Thead,
   Tbody,
@@ -7,11 +6,6 @@ import {
   Th,
   Td,
   TableContainer,
-  TableCaption,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Text,
 } from "@chakra-ui/react";
 
@@ -19,9 +13,10 @@ import {
   DateFromSeconds,
   FormatDate,
   getBadgeStatusGame,
+  formatMoney,
 } from "@/shared/utils";
 
-const Game = ({ game, clan_id }) => {
+const Game = ({ game, clan_id, clan }) => {
   return (
     <>
       <Tr>
@@ -44,6 +39,9 @@ const Game = ({ game, clan_id }) => {
         <Td>{getBadgeStatusGame(game?.status)}</Td>
         <Td>{game?.type}</Td>
         <Td>
+          {formatMoney(game.total_money_in || 0, clan?.settings?.currency)}
+        </Td>
+        <Td>
           {game?.created_at
             ? FormatDate(
                 DateFromSeconds(game?.created_at?.seconds),
@@ -63,7 +61,7 @@ const Game = ({ game, clan_id }) => {
     </>
   );
 };
-const GameList = ({ games, clan_id }) => {
+const GameList = ({ games, clan_id, clan }) => {
   return (
     <>
       <TableContainer overflowX="scroll" overflowY="unset">
@@ -81,13 +79,14 @@ const GameList = ({ games, clan_id }) => {
               </Th>
               <Th>Status</Th>
               <Th>Type</Th>
+              <Th>Money-In</Th>
               <Th>Created at</Th>
               <Th>Action</Th>
             </Tr>
           </Thead>
           <Tbody>
             {games?.map((g) => {
-              return <Game key={g.id} game={g} clan_id={clan_id} />;
+              return <Game key={g.id} game={g} clan_id={clan_id} clan={clan} />;
             })}
           </Tbody>
         </Table>

@@ -43,9 +43,7 @@ const Player = ({ index, player, onAction, game, clan }) => {
         <Td isNumeric>{player.total_cashout}</Td>
         <Td isNumeric>{player.profit_chip ? player.profit_chip : 0}</Td>
         <Td isNumeric>
-          {player.profit
-            ? formatMoney(player.profit, clan?.settings?.currency)
-            : 0}
+          {formatMoney(player.profit || 0, clan?.settings?.currency)}
         </Td>
         {game?.status == "start" ? (
           <Td>

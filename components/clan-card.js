@@ -5,7 +5,6 @@ import {
   CardFooter,
   Heading,
   Text,
-  Button,
 } from "@chakra-ui/react";
 
 const ClanCard = ({ clan }) => {

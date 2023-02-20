@@ -1,18 +1,8 @@
 import {
-  Card,
-  CardHeader,
-  CardBody,
   Heading,
   Text,
-  SimpleGrid,
-  Flex,
   Box,
-  Spacer,
-  Button,
-  useDisclosure,
-  ButtonGroup,
   VStack,
-  HStack,
   Table,
   Thead,
   Tbody,
@@ -20,7 +10,6 @@ import {
   Th,
   Td,
   TableContainer,
-  TableCaption,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -61,20 +50,23 @@ export default function Dashboard() {
     useMemo(() => {
       const { members, games, game_players } = summary;
 
-      const legend = members
-        ?.map((member) => {
-          return member.name;
-        })
-        .sort();
+      const legend =
+        members
+          ?.map((member) => {
+            return member.name;
+          })
+          .sort() || [];
+
       const sortGames = games
         ? games?.sort((a, b) => {
             return a?.end_at.seconds - b?.end_at.seconds;
           })
         : [];
 
-      const xAxis = sortGames?.map((x) => {
-        return x.name;
-      });
+      const xAxis =
+        sortGames?.map((x) => {
+          return x.name;
+        }) || [];
 
       const profitTotalMapping = {};
       const profitMapping = {};
@@ -110,25 +102,29 @@ export default function Dashboard() {
       });
 
       let grand_total_profit = 0;
-      let member_profits = members?.map((member) => {
-        const profit = profitTotalMapping[member.id].reduce((a, b) => a + b, 0);
-        grand_total_profit += profit;
-        return {
-          name: member.name,
-          type: "line",
-          data: profitMapping[member.id],
-          total_profit: profit,
-          data_total: profitTotalMapping[member.id],
-          showSymbol: true,
-          smooth: false,
-          endLabel: {
-            show: true,
-            formatter: function (params) {
-              return params.seriesName;
+      let member_profits =
+        members?.map((member) => {
+          const profit = profitTotalMapping[member.id].reduce(
+            (a, b) => a + b,
+            0
+          );
+          grand_total_profit += profit;
+          return {
+            name: member.name,
+            type: "line",
+            data: profitMapping[member.id],
+            total_profit: profit,
+            data_total: profitTotalMapping[member.id],
+            showSymbol: true,
+            smooth: false,
+            endLabel: {
+              show: true,
+              formatter: function (params) {
+                return params.seriesName;
+              },
             },
-          },
-        };
-      });
+          };
+        }) || [];
 
       member_profits = member_profits?.sort(
         (a, b) => b?.total_profit - a?.total_profit
@@ -143,7 +139,7 @@ export default function Dashboard() {
             trigger: "axis",
           },
           legend: {
-            data: legend,
+            data: [...legend, "Money-In"],
           },
           grid: {
             left: "0%",
@@ -158,13 +154,28 @@ export default function Dashboard() {
           },
           xAxis: {
             type: "category",
-            boundaryGap: false,
+            boundaryGap: true,
             data: xAxis,
           },
-          yAxis: {
-            type: "value",
-          },
-          series: member_profits,
+          yAxis: [
+            {
+              type: "value",
+            },
+            {
+              type: "value",
+            },
+          ],
+          series: [
+            ...member_profits,
+            {
+              name: "Money-In",
+              type: "bar",
+              data: sortGames?.map((g) => {
+                return g.total_money_in || 0;
+              }),
+              barWidth: "10%",
+            },
+          ],
         },
         game_names: xAxis,
         member_profits,
