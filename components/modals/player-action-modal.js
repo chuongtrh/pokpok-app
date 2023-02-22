@@ -63,8 +63,13 @@ const PlayerActionModal = ({ onClose, isOpen, onSubmit, player, action }) => {
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} type="submit" form="new-game">
-              {action == "buyin" ? "Save Buyin" : "Save Cashout"}
+            <Button
+              colorScheme={action == "buyin" ? "whatsapp" : "pink"}
+              mr={3}
+              type="submit"
+              form="new-game"
+            >
+              {action == "buyin" ? "Save 💵 Buyin" : "Save 🏃‍♂️ Cashout"}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
