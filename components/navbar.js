@@ -7,16 +7,25 @@ import {
   getMe,
 } from "@/shared/api";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { useUserStore } from "@/shared/user.store";
 
 export default function Navbar() {
   let [token, setToken] = useState("");
   let [user, setUser] = useState({});
+  const setUserStore = useUserStore((state) => state.setUserStore);
 
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
     }
   }, [token]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      setUserStore(user);
+    }
+  }, [user]);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("token");
@@ -36,12 +45,15 @@ export default function Navbar() {
   const handleResponseGoogle = async (response) => {
     const { credential } = response;
     if (credential) {
-      await loginWithGoogle(credential);
-      const { user, token } = await loginWithGoogle(credential);
-      if (user && token) {
-        setHeaderAuthorization(token);
-        setUser(user);
-        setToken(token);
+      try {
+        const { user, token } = await loginWithGoogle(credential);
+        if (user && token) {
+          setHeaderAuthorization(token);
+          setUser(user);
+          setToken(token);
+        }
+      } catch (error) {
+        console.error("🚀 ~ error:", error);
       }
     }
   };

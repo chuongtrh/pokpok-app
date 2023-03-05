@@ -53,6 +53,8 @@ import GameLogModal from "@/components/modals/game-log-modal";
 import PlayerList from "@/components/player-list";
 import PlayerActionModal from "@/components/modals/player-action-modal";
 
+import { useUserStore } from "@/shared/user.store";
+
 const getNextGameStatus = (status) => {
   const mapping = {
     new: "start",
@@ -72,6 +74,8 @@ export default function Game() {
   const [action, setAction] = useState("");
   const [playerAction, setPlayerAction] = useState({});
   const [nextGameStatus, setNextGameStatus] = useState("");
+
+  const user = useUserStore((state) => state.user);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -219,7 +223,10 @@ export default function Game() {
                         onClose={onCloseGameAction}
                       >
                         <PopoverTrigger>
-                          <Button colorScheme={"purple"}>
+                          <Button
+                            colorScheme={"purple"}
+                            isDisabled={!user?.is_admin}
+                          >
                             {nextGameStatus?.toUpperCase()}
                           </Button>
                         </PopoverTrigger>
@@ -257,7 +264,7 @@ export default function Game() {
                       colorScheme="blue"
                       variant="solid"
                       onClick={onOpen}
-                      disabled={game?.status != "end"}
+                      isDisabled={game?.status != "start" || !user?.is_admin}
                     >
                       Add 🥷
                     </Button>

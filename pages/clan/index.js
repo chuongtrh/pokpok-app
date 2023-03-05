@@ -28,6 +28,8 @@ import {
   addMember,
 } from "@/shared/api";
 
+import { useUserStore } from "@/shared/user.store";
+
 import NewGameModal from "@/components/modals/new-game-modal";
 import AddMemberModal from "@/components/modals/add-member-modal";
 import GameList from "@/components/game-list";
@@ -36,6 +38,8 @@ export default function Clan() {
   const [clan, setClan] = useState([]);
   const [games, setGames] = useState([]);
   const [members, setMembers] = useState([]);
+
+  const user = useUserStore((state) => state.user);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -117,6 +121,7 @@ export default function Clan() {
                       colorScheme="teal"
                       variant="solid"
                       onClick={onOpen}
+                      isDisabled={!user?.is_admin}
                     >
                       New 🎯
                     </Button>
@@ -125,6 +130,7 @@ export default function Clan() {
                       colorScheme="blue"
                       variant="solid"
                       onClick={onOpenNewMember}
+                      isDisabled={!user?.is_admin}
                     >
                       Add Member
                     </Button>
