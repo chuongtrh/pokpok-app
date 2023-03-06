@@ -75,6 +75,7 @@ const NewGameModal = ({ onClose, isOpen, onSubmit, members }) => {
                     { label: "500", value: 500 },
                     { label: "1.000", value: 1000 },
                     { label: "2.000", value: 2000 },
+                    { label: "3.000", value: 3000 },
                   ]}
                   placeholder="Select stack..."
                   closeMenuOnSelect={true}
@@ -88,8 +89,10 @@ const NewGameModal = ({ onClose, isOpen, onSubmit, members }) => {
                   name="rate"
                   options={[
                     { label: "50k", value: 50000 },
-                    { label: "100k", value: 1000000 },
-                    { label: "200k", value: 2000000 },
+                    { label: "100k", value: 100000 },
+                    { label: "250k", value: 250000 },
+                    { label: "500k", value: 500000 },
+                    { label: "1000k", value: 1000000 },
                   ]}
                   placeholder="Select rate..."
                   closeMenuOnSelect={true}
