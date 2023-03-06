@@ -4,7 +4,6 @@ import {
   CardBody,
   Heading,
   Text,
-  SimpleGrid,
   Flex,
   Box,
   Spacer,
@@ -15,6 +14,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Link,
 } from "@chakra-ui/react";
 import { AddIcon, ChevronRightIcon, RepeatIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
@@ -32,6 +32,7 @@ import { useUserStore } from "@/shared/user.store";
 
 import NewGameModal from "@/components/modals/new-game-modal";
 import AddMemberModal from "@/components/modals/add-member-modal";
+import ViewMemberModal from "@/components/modals/view-member-modal";
 import GameList from "@/components/game-list";
 
 export default function Clan() {
@@ -46,6 +47,11 @@ export default function Clan() {
     isOpen: isOpenNewMember,
     onOpen: onOpenNewMember,
     onClose: onCloseNewMember,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenViewMember,
+    onOpen: onOpenViewMember,
+    onClose: onCloseViewMember,
   } = useDisclosure();
 
   const router = useRouter();
@@ -147,9 +153,19 @@ export default function Clan() {
             <Box p="4">
               <Heading size="md"> {clan?.name}</Heading>
               <Text>{clan?.description}</Text>
-              <Text>🥷 Members: {members?.length}</Text>
+              <Button
+                colorScheme="teal"
+                variant="link"
+                onClick={onOpenViewMember}
+              >
+                🥷 Members: {members?.length}
+              </Button>
               <Text>🎯 Games: {games?.length}</Text>
-              <a href={`/clan/dashboard/?clan_id=${clan.id}`}>📊 Dashboard</a>
+              <a href={`/clan/dashboard/?clan_id=${clan.id}`}>
+                <Text as="b" color="teal.500">
+                  📊 Dashboard
+                </Text>
+              </a>
             </Box>
           </VStack>
         </CardHeader>
@@ -168,6 +184,12 @@ export default function Clan() {
         onClose={onCloseNewMember}
         onSubmit={onAddNewMember}
         clan={clan}
+      />
+      <ViewMemberModal
+        isOpen={isOpenViewMember}
+        onClose={onCloseViewMember}
+        clan={clan}
+        members={members}
       />
     </>
   );
