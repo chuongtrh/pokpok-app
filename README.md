@@ -4,6 +4,11 @@ Check out repo:
 - Backend https://github.com/chuongtrh/pokpok-api
 - Web app https://github.com/chuongtrh/pokpok-app
 
+Stacks:
+- Web: Next.js, Charka-ui, PWA
+- API: oak + denojs
+- DB: firestore
+
 ## Getting Started
 
 First, setup file **.env.local** from *.env.example* then run the development server:
